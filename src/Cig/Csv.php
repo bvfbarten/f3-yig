@@ -10,7 +10,7 @@
 */
 
 
-namespace DB;
+namespace DB\Cig;
 
 class Csv {
 

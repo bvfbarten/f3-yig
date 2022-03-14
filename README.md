@@ -5,19 +5,25 @@ Extension to acces YAML and csv files in Fatfree using the f3 jig syntax.
 example:
 
 ```
-
-  class MemberYaml extends \DB\Yig\Mapper {
+/*
+use Yaml format for saving
+*/
+class MemberYaml extends \DB\Yig\Mapper {
     public function __construct() {
-        parent::__construct( new DB\Yig(__DIR__ . '/tmp/test/'), 'team.yaml' );
+        parent::__construct( new DB\Yig('tmp/'), 'team.yaml' );
     }
-  }
+}
 
-  class MemberCsv extends \DB\Yig\Mapper {
+/*
+use Csv format for saving
+*/
+class MemberCsv extends \DB\Cig\Mapper {
     public function __construct() {
-        parent::__construct( new DB\Yig(__DIR__ . '/tmp/test/', DB\Yig::FORMAT_CSV), 'team.csv' );
+        parent::__construct( new DB\Cig('tmp/'), 'team.csv' );
     }
-  }
-  $memberQuery = new MemberCsv;
-  $allMembers = $memberQuery->find();
+}
+
+$memberQuery = new MemberCsv;
+$allMembers = $memberQuery->find();
 
 ```

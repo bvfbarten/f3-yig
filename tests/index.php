@@ -4,21 +4,17 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $f3 = Base::instance();
 
-$f3->set('yaml', new DB\Yig(__DIR__ . '/tmp/test/', DB\Yig::FORMAT_YAML));
-$f3->set('csv', new DB\Yig(__DIR__ . '/tmp/test/', DB\Yig::FORMAT_CSV));
-
 class MemberYaml extends \DB\Yig\Mapper {
     public function __construct() {
-        parent::__construct( Base::instance()->get('yaml'), 'team.yaml' );
+        parent::__construct( new DB\Yig('tmp/'), 'team.yaml' );
     }
 }
 
-class MemberCsv extends \DB\Yig\Mapper {
+class MemberCsv extends \DB\Cig\Mapper {
     public function __construct() {
-        parent::__construct( Base::instance()->get('csv'), 'team.csv' );
+        parent::__construct( new DB\Cig('tmp/'), 'team.csv' );
     }
 }
-
 
 $test = new Test();
 
@@ -61,6 +57,14 @@ foreach(['MemberCsv', 'MemberYaml'] as $className) {
 	);
 }
 
+
+
+
+
+
+
+
+
 foreach ($test->results() as $result) {
     echo $result['text']."\n";
     if ($result['status'])
@@ -69,6 +73,10 @@ foreach ($test->results() as $result) {
         echo 'Fail ('.$result['source'].')';
     echo "\n";
 }
+
+
+
+
 
 
 

@@ -8,7 +8,7 @@
 	Foundation, either version 3 of the License, or later.
 */
 
-namespace DB\Yig;
+namespace DB\Cig;
 
 //! Flat-file DB mapper
 class Mapper extends \DB\Jig\Mapper {
@@ -19,7 +19,7 @@ class Mapper extends \DB\Jig\Mapper {
 	*	@param $db object
 	*	@param $file string
 	**/
-	function __construct(\DB\Yig $db,$file) {
+	function __construct(\DB\Jig $db,$file) {
 		$this->db=$db;
 		$this->file=$file;
 		$this->reset();

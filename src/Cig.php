@@ -12,10 +12,10 @@
 
 namespace DB;
 
-use Symfony\Component\Yaml\Yaml;
+use DB\Cig\Csv;
 
 //! In-memory/flat-file DB wrapper
-class Yig extends \DB\Jig {
+class Cig extends \DB\Jig {
 
 	//@{ Storage formats
 	const
@@ -40,10 +40,14 @@ class Yig extends \DB\Jig {
 		$raw=$fw->read($dst);
 		switch ($this->format) {
 			case self::FORMAT_CSV:
-				throw new \Exception('Use DB\Cig');
+				$rawData = Csv::parse($raw);
+				$data = [];
+				foreach($rawData as $counter => $line) {
+				       $data[$line['_id'] !== "" ? $line['_id'] : $counter] = $line;	
+				}
 				break;
 			case self::FORMAT_YAML:
-				$data = Yaml::parse($raw);
+				throw new \Exception('Use DB\Yig');
 				break;
 		}
 		$this->data[$file] = $data;
@@ -62,10 +66,17 @@ class Yig extends \DB\Jig {
 		$fw=\Base::instance();
 		switch ($this->format) {
 			case self::FORMAT_CSV:
-				throw new \Exception('Use DB\Cig');
+				foreach($data as $_id => $line) {
+					$data[$_id]['_id'] = (
+						($line['_id'] !== "" && $line['_id'] !== null) 
+						? $line['_id'] 
+						: $_id
+					);
+				}
+				$out=Csv::dump($data);
 				break;
 			case self::FORMAT_YAML:
-				$out=Yaml::dump($data, 8, 2,Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+				throw new \Exception('Use DB\Yig');
 				break;
 		}
 		return $fw->write($this->dir.$file,$out);
@@ -76,7 +87,7 @@ class Yig extends \DB\Jig {
 	*	@param $dir string
 	*	@param $format int
 	**/
-	function __construct($dir=NULL,$format=self::FORMAT_YAML,$lazy=FALSE) {
+	function __construct($dir=NULL,$format=self::FORMAT_CSV,$lazy=FALSE) {
 		if ($dir && !is_dir($dir))
 			mkdir($dir,\Base::MODE,TRUE);
 		$this->uuid=\Base::instance()->hash($this->dir=$dir);
@@ -85,3 +96,4 @@ class Yig extends \DB\Jig {
 	}
 
 }
+
