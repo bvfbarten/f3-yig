@@ -68,7 +68,7 @@ class Cig extends \DB\Jig {
 			case self::FORMAT_CSV:
 				foreach($data as $_id => $line) {
 					$data[$_id]['_id'] = (
-						($line['_id'] !== "" && $line['_id'] !== null) 
+						(isset($line['_id']) && $line['_id'] !== "" && $line['_id'] !== null) 
 						? $line['_id'] 
 						: $_id
 					);
