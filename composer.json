@@ -1,0 +1,21 @@
+{
+    "require": {
+        "bcosca/fatfree": "^3.8",
+        "symfony/yaml": "^5.4"
+    },
+    "name": "bvfbarten/yig",
+    "description": "YAML/csv extension for jig",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Brady Barten",
+            "email": "bvfbarten@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload":{
+        "psr-4":{
+            "DB\\":"src/"
+        }
+    }
+}
